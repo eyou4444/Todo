@@ -15,7 +15,7 @@ app.url_map.converters['regex'] = RegexConverter  # 初始化时把他初始化�
 
 @app.route('/')
 def hello_world():
-    return render_template('index.html', title='Welcome!')
+    return render_template('index.html', title='Welcome to GloryRoad!')
 
 
 @app.route('/services')
