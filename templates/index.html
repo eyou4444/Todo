@@ -1,14 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>GloryRoad</title>
-    <link rel="stylesheet" href="{{ url_for('static',filename='site.css') }}" />
-</head>
-<body>
-    <h1>{{ title }}</h1>
-{#    {{ body|md|safe }}#}
+{% extends 'base.html' %}
+{% import '_marcos.html' as ui %} {# 需要给别名，防止import很多个 #}
+{% block title %}GloryRoad{% endblock %}
 
+{% block content %}
+<h1>{{ title }}</h1>
+{# 调用宏 #}
+    usrname:{{ ui.input('username') }}
+    password:{{ ui.input('password',type='password') }}
+<br><br>
 
 {#jinjia中的设置变更,导航字典#}
 {% set links=[
@@ -35,8 +34,11 @@
 
 </nav>
     {{ read_md('http_methods.md')|md|safe}}
+{{ self.title() }} {# 使用self直接用块中的内容 #}
 <h1>您好！欢迎来到光荣之路!!!</h1>
 
-
-</body>
-</html>
+{% endblock %}
+{% block footer %}
+    <hr>
+    {{ super() }}
+{% endblock %}
