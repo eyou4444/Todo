@@ -2,20 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>GloryRoad</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='site.css') }}" />
 </head>
 <body>
     <h1>{{ title }}</h1>
 {#    {{ body|md|safe }}#}
-    {{ read_md('http_methods.md')|md|safe}}
 
+
+{#jinjia中的设置变更,导航字典#}
+{% set links=[
+    ('Home',url_for('.index')),
+    ('About',url_for('.about')),
+    ('Services',url_for('.services')),
+    ('Projects',url_for('.projects')),
+]%}
+{#循环输出导航#}
 <nav>
-    <a href="{{ url_for('.services') }}">Service</a>
-    <a href="{{ url_for('.about') }}">About</a>
+    {% for label,href in links %}
+        {% if not loop.first %} | {% endif %}
+{#        for 循环的上下文loop 第一个不输出|#}
+
+        <a href="{% if href is current_link %}#
+            {% else %}
+            {{ href }}
+            {% endif %}">
+            {{ label }}
+        </a>
+
+
+    {% endfor %}
 
 </nav>
-<h1>您好！欢迎来到光荣之路!!</h1>
+    {{ read_md('http_methods.md')|md|safe}}
+<h1>您好！欢迎来到光荣之路!!!</h1>
 
 
 </body>

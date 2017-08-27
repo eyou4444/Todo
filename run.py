@@ -105,6 +105,12 @@ def page_not_found(error):
     return render_template('404.html'), 404  # 后面可以直接加错误码
 
 
+# 定义模板的测试函数，如果是当前访问的页面，就不显示链接
+@app.template_test('current_link')  # 定义名字
+def is_current_link(link):
+    return link == request.path
+
+
 @manager.command
 def dev():
     from livereload import Server
