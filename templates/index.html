@@ -7,12 +7,16 @@
 </head>
 <body>
     <h1>{{ title }}</h1>
+{#    {{ body|md|safe }}#}
+    {{ read_md('http_methods.md')|md|safe}}
 
 <nav>
     <a href="{{ url_for('.services') }}">Service</a>
     <a href="{{ url_for('.about') }}">About</a>
 
 </nav>
-<h1>您好！欢迎来到光荣之路！！!</h1>
+<h1>您好！欢迎来到光荣之路!!</h1>
+
+
 </body>
 </html>

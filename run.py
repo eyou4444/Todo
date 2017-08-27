@@ -15,6 +15,7 @@ class RegexConverter(BaseConverter):  # 正则表达式转换器
 
 
 app = Flask(__name__)
+app.config['DEBUG'] = True  # livereload必须在真的情况下才能生效
 app.url_map.converters['regex'] = RegexConverter  # 初始化时把他初始化到url_map中，取名字叫regex
 
 manager = Manager(app)
@@ -25,7 +26,25 @@ def index():
     # response = make_response(render_template('index.html', title='Welcome to GloryRoad!'))   对函数进行包装
     # #response.set_cookie('username', '')   使用response设置cookie
     # return response
-    return render_template('index.html', title='Welcome to GloryRoad!')
+    return render_template('index.html', title='Welcome to GloryRoad!',
+                           body='## Header2')
+
+
+@app.template_filter('md')  # 定义模版中的装饰器，并注册到模版中使用
+def markdown_to_html(txt):  # 导入输入值
+    from markdown import markdown
+    return markdown(txt)  # 使用markdown函数输出
+
+
+def read_md(filename):  # 读取文件，输出到页面
+    with open(filename) as md_file:
+        content = reduce(lambda x, y: x + y, md_file.readlines())
+        return content.decode('utf-8')
+
+
+@app.context_processor  # 将方法注册到模版中使用的装饰器
+def inject_methods():  # 方法名可以随便起
+    return dict(read_md=read_md)  # 直接返回一个字典
 
 
 @app.route('/services')
@@ -95,6 +114,5 @@ def dev():
 
 
 if __name__ == '__main__':
-    app.config['DEBUG'] = True
     manager.run()
     # app.run(debug=True)
