@@ -19,10 +19,10 @@ app.url_map.converters['regex'] = RegexConverter  # 初始化时把他初始化�
 
 @app.route('/')
 def index():
-    # abort(404)  按照服务器的错误码写错误代码
-    response = make_response(render_template('index.html', title='Welcome to GloryRoad!'))  # 对函数进行包装
-    response.set_cookie('username', '')  # 使用response设置cookie
-    return response
+    # response = make_response(render_template('index.html', title='Welcome to GloryRoad!'))   对函数进行包装
+    # #response.set_cookie('username', '')   使用response设置cookie
+    # return response
+    return render_template('index.html', title='Welcome to GloryRoad!')
 
 
 @app.route('/services')
@@ -61,8 +61,8 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-    else:
-        username = request.args['username']  # use get method with url ex.:http://www.xx.com?username=zx
+    # else:
+    #     username = request.args['username']  # use get method with url ex.:http://www.xx.com?username=zx
     return render_template('login.html', method=request.method)
 
 
