@@ -5,6 +5,7 @@ from flask import abort  # 中止当前执行，不再响应
 from werkzeug.routing import BaseConverter  # 德文写的正则模块包
 from os import path  # 上传文件是指定路径。服务器地址
 from werkzeug.utils import secure_filename  # 文件名
+from flask_script import Manager
 
 
 class RegexConverter(BaseConverter):  # 正则表达式转换器
@@ -15,6 +16,8 @@ class RegexConverter(BaseConverter):  # 正则表达式转换器
 
 app = Flask(__name__)
 app.url_map.converters['regex'] = RegexConverter  # 初始化时把他初始化到url_map中，取名字叫regex
+
+manager = Manager(app)
 
 
 @app.route('/')
@@ -83,5 +86,15 @@ def page_not_found(error):
     return render_template('404.html'), 404  # 后面可以直接加错误码
 
 
+@manager.command
+def dev():
+    from livereload import Server
+    live_server = Server(app.wsgi_app)
+    live_server.watch('**/*.*')  # 指明一个需要监测的目录,表示监测所有目录
+    live_server.serve(open_url=True)
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.config['DEBUG'] = True
+    manager.run()
+    # app.run(debug=True)

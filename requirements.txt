@@ -11,6 +11,7 @@ Fabric==1.13.2
 Flask==0.12.2
 flask-mongoengine==0.9.3
 Flask-Script==2.0.5
+livereload==2.3.2
 Flask-SQLAlchemy==2.2
 Flask-WTF==0.14.2
 gunicorn==19.7.1
