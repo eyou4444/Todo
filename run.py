@@ -1,4 +1,4 @@
-# encoding:utf-8
+# -*- coding:utf-8 -*-
 from flask import Flask, render_template, request, redirect, url_for
 from flask import make_response  # 写入cookies
 from flask import abort  # 中止当前执行，不再响应
@@ -6,6 +6,9 @@ from werkzeug.routing import BaseConverter  # 德文写的正则模块包
 from os import path  # 上传文件是指定路径。服务器地址
 from werkzeug.utils import secure_filename  # 文件名
 from flask_script import Manager
+from flask_bootstrap import Bootstrap
+from flask_nav import Nav
+from flask_nav.elements import *
 
 
 class RegexConverter(BaseConverter):  # 正则表达式转换器
@@ -19,6 +22,14 @@ app.config['DEBUG'] = True  # livereload必须在真的情况下才能生效
 app.url_map.converters['regex'] = RegexConverter  # 初始化时把他初始化到url_map中，取名字叫regex
 
 manager = Manager(app)
+Bootstrap(app)  # 实例化
+nav = Nav()
+nav.register_element('top', Navbar(u'光荣之路',
+                                   View(u'主页', 'index'),
+                                   View(u'关于', 'about'),
+                                   View(u'服务', 'services'),
+                                   View(u'程序', 'projects')))
+nav.init_app(app)
 
 
 @app.route('/')

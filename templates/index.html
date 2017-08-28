@@ -3,42 +3,22 @@
 {% block title %}GloryRoad{% endblock %}
 
 {% block content %}
-<h1>{{ title }}</h1>
-{# 调用宏 #}
-    usrname:{{ ui.input('username') }}
+    <div class="page-header">
+        <div class="container">
+            <h1>{{ title }}</h1>
+        </div>
+    </div>
+
+
+    <div class="container">
+    {# 调用宏 #}
+    username:{{ ui.input('username') }}
     password:{{ ui.input('password',type='password') }}
-<br><br>
+    </div>
 
-{#jinjia中的设置变更,导航字典#}
-{% set links=[
-    ('Home',url_for('.index')),
-    ('About',url_for('.about')),
-    ('Services',url_for('.services')),
-    ('Projects',url_for('.projects')),
-]%}
-{#循环输出导航#}
-<nav>
-    {% for label,href in links %}
-        {% if not loop.first %} | {% endif %}
-{#        for 循环的上下文loop 第一个不输出|#}
-
-        <a href="{% if href is current_link %}#
-            {% else %}
-            {{ href }}
-            {% endif %}">
-            {{ label }}
-        </a>
-
-
-    {% endfor %}
-
-</nav>
-    {{ read_md('http_methods.md')|md|safe}}
-{{ self.title() }} {# 使用self直接用块中的内容 #}
-<h1>您好！欢迎来到光荣之路!!!</h1>
-
-{% endblock %}
 {% block footer %}
     <hr>
-    {{ super() }}
+{{ super() }}
 {% endblock %}
+{% endblock %}
+

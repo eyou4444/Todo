@@ -1,19 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{% extends 'bootstrap/base.html' %}
+
 <title>{% block title %}{% endblock %}</title>
-    {% block head    %}
-        {% include 'includes/_head.html' %}
-        {# 如果是多个文件，可以使用数组的形式include ['includes/_head.html','includes/_cool.html'] #}
-    {% endblock %}
-</head>
-<body>
-<header>{% block header %}{% endblock %}</header>
-<div>{% block content %}{% endblock %}</div>
-<footer>
-    {% block footer %}
-        Copyright 2017 by <a href="#">GloryRoad</a>
-    {% endblock %}
-</footer>
-</body>
-</html>
+{% block head %}
+    {{ super() }}
+    {% include 'includes/_head.html' %}
+    {# 如果是多个文件，可以使用数组的形式include ['includes/_head.html','includes/_cool.html'] #}
+{% endblock %}
+
+{% block styles %}
+{#加入CDN的样式#}
+    {{ super() }}
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/slate/bootstrap.min.css"
+          />
+{% endblock %}
+
+{% block navbar %}
+    {{ nav.top.render()}}
+{% endblock %}
+
+
+
+
+
+{% block content %}
+    <header>{% block header %}{% endblock %}</header>
+    <footer>
+        {% block footer %}
+            Copyright 2017 by <a href='#'>GloryRoad</a>
+        {% endblock %}
+    </footer>
+{% endblock %}
+
