@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<title>{% block title %}{% endblock %}</title>
     {% block head    %}
         {% include 'includes/_head.html' %}
         {# 如果是多个文件，可以使用数组的形式include ['includes/_head.html','includes/_cool.html'] #}
