@@ -11,9 +11,7 @@
 
 
     <div class="container">
-    {# 调用宏 #}
-    username:{{ ui.input('username') }}
-    password:{{ ui.input('password',type='password') }}
+{{ read_md('http_methods.md')|md|safe }}
     </div>
 
 {% block footer %}
