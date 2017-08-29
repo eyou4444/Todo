@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask,flash, render_template, request, redirect, url_for
 from flask import make_response  # 写入cookies
 from flask import abort  # 中止当前执行，不再响应
 from werkzeug.routing import BaseConverter  # 德文写的正则模块包
@@ -18,7 +18,8 @@ class RegexConverter(BaseConverter):  # 正则表达式转换器
 
 
 app = Flask(__name__)
-app.config['DEBUG'] = True  # livereload必须在真的情况下才能生效
+# app.config['DEBUG'] = True  # livereload必须在真的情况下才能生效
+app.config.from_pyfile('config')
 app.url_map.converters['regex'] = RegexConverter  # 初始化时把他初始化到url_map中，取名字叫regex
 
 manager = Manager(app)
@@ -28,7 +29,8 @@ nav.register_element('top', Navbar(u'光荣之路',
                                    View(u'主页', 'index'),
                                    View(u'关于', 'about'),
                                    View(u'服务', 'services'),
-                                   View(u'程序', 'projects')))
+                                   View(u'程序', 'projects'),
+                                   View(u'登录', 'login')))
 nav.init_app(app)
 
 
@@ -91,12 +93,10 @@ def projects():
 
 @app.route('/login', methods=['GET', 'POST'])  # methods ~  method+s
 def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-    # else:
-    #     username = request.args['username']  # use get method with url ex.:http://www.xx.com?username=zx
-    return render_template('login.html', method=request.method)
+    from forms import LoginForm
+    form = LoginForm()
+    flash(u'登录成功！')
+    return render_template('login.html', title=u'登录', form=form)
 
 
 # 上传文件方法

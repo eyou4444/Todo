@@ -1,27 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>login</title>
-</head>
-<body>
-    <h1>Login</h1>
-    <h1>HTTP方法：{{ method }}</h1>
-    <form method="post">
-        <div>
-            <input type="text"
-                   name="username"
-                   placeholder="user name">
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block content %}
+    <div class="page-header">
+        <div class="container">
+            <h1>{{ title }}</h1>
         </div>
-        <div>
-            <input type="password"
-                   name="password"
-                   placeholder="password">
-        </div>
-        <div>
-            <input type="submit" >
-        </div>
-    </form>
+    </div>
+    <div class="container">
+        {% for message in get_flashed_messages() %}
+           <div class="alert-info"> {{message}}</div>
+        {% endfor %}
 
-</body>
-</html>
+        {{ wtf.quick_form(form) }}
+    </div>
+{% endblock %}
