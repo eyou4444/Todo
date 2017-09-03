@@ -30,9 +30,12 @@ def create_app():
     # 初始化时把他初始化到url_map中，取名字叫regex
     app.config.from_pyfile('config')
     # 配置数据库连接
-    app.config['SQLALCHEMY_DETABASE_URI'] = \
-        'sqlite:///' + path.join(basedir, 'data.sqlite')
+    # app.config['SQLALCHEMY_DATABASE_URI'] = \
+    #     'sqlite:///' + path.join(basedir, 'data.sqlite')
+    app.config['SQLALCHEMY_DATABASE_URI'] = \
+        'mysql+pymysql://root:zhangxu860404@localhost/gloryroad'
     app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     nav.register_element('top', Navbar(u'光荣之路',
                                        View(u'主页', 'index'),
