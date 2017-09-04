@@ -7,6 +7,7 @@ from flask_nav import Nav
 from flask_nav.elements import *
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.routing import BaseConverter  # 德文写的正则模块包
+from flask_login import LoginManager
 
 
 class RegexConverter(BaseConverter):  # 正则表达式转换器
@@ -20,7 +21,10 @@ basedir = path.abspath(path.dirname(__file__))  # 配置绝对路径，当前的
 bootstrap = Bootstrap()  # 这个变量是全局变量，引用这个文件的时候可以使用
 nav = Nav()
 db = SQLAlchemy()
-
+#实例化，保护等级，制定登录视图
+login_manager=LoginManager()
+login_manager.session_protection='strong'
+login_manager.login_view='auth.login'
 
 # 使用工厂方法创建app
 def create_app():
@@ -38,13 +42,13 @@ def create_app():
 
     nav.register_element('top', Navbar(u'光荣之路',
                                        View(u'主页', 'main.index'),
-                                       View(u'关于', 'main.about'),
-                                       View(u'服务', 'main.services'),
-                                       View(u'登录', 'auth.login')))
+                                       View(u'登录', 'auth.login'),
+                                       View(u'注册', 'auth.register'),
+                                       View(u'关于', 'main.about')))
     db.init_app(app)  # 将插件进行初始化
     bootstrap.init_app(app)
     nav.init_app(app)
-
+    login_manager.init_app(app)
     #导入蓝图
     from auth import auth as auth_blueprint
     from main import main as main_blueprint

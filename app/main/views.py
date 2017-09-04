@@ -2,7 +2,6 @@
 from flask import flash, render_template, redirect, request
 from . import main
 
-
 @main.route('/')
 def index():
     return render_template('index.html', title='Welcome to GloryRoad!')
@@ -10,7 +9,7 @@ def index():
 
 @main.route('/about')  # 无杠代表指向一个文件名来访问,访问时打/，会无法访问
 def about():
-    return render_template('index.html', title='Welcome to GloryRoad!')
+    return render_template('about.html', title='Welcome to GloryRoad!')
 
 
 @main.route('/services')
