@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 from flask_script import Manager
 from app import create_app,db
-from flask_migrate import Migrate,MigrateCommand
+from flask_migrate import Migrate,MigrateCommand,upgrade
 app = create_app()
 manager = Manager(app)
 
@@ -22,9 +22,12 @@ def test():
     pass
 
 #第一次安装程序是使用，安装环境或者数据库等
+#生成数据库，并进行初始化工作。
 @manager.command
 def deploy():
-    pass
+    from app.models import Role
+    upgrade()
+    Role.seed()
 
 # 主要的引导文件。
 if __name__ == '__main__':

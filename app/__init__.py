@@ -6,7 +6,6 @@ from flask_bootstrap import Bootstrap
 from flask_nav import Nav
 from flask_nav.elements import *
 from flask_sqlalchemy import SQLAlchemy
-from .views import init_views
 from werkzeug.routing import BaseConverter  # 德文写的正则模块包
 
 
@@ -23,7 +22,7 @@ nav = Nav()
 db = SQLAlchemy()
 
 
-#使用工厂方法创建app
+# 使用工厂方法创建app
 def create_app():
     app = Flask(__name__)
     app.url_map.converters['regex'] = RegexConverter
@@ -38,17 +37,19 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     nav.register_element('top', Navbar(u'光荣之路',
-                                       View(u'主页', 'index'),
-                                       View(u'关于', 'about'),
-                                       View(u'服务', 'services'),
-                                       View(u'程序', 'projects'),
-                                       View(u'登录', 'login')))
-    db.init_app(app) #将插件进行初始化
+                                       View(u'主页', 'main.index'),
+                                       View(u'关于', 'main.about'),
+                                       View(u'服务', 'main.services'),
+                                       View(u'登录', 'auth.login')))
+    db.init_app(app)  # 将插件进行初始化
     bootstrap.init_app(app)
     nav.init_app(app)
-    init_views(app)
+
+    #导入蓝图
+    from auth import auth as auth_blueprint
+    from main import main as main_blueprint
+    #注册蓝图
+    app.register_blueprint(auth_blueprint, url_prefix='/auth')
+    # app.register_blueprint(main_blueprint,static_folder='static')
+    app.register_blueprint(main_blueprint)
     return app
-
-
-
-

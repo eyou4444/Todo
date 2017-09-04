@@ -24,10 +24,10 @@ class User(db.Model):
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))  # 从表，有外键
 
     @staticmethod
-    def on_created(target,value,initator):
-        target.role = Role.query.filter_by(name='Guests').frist()
+    def on_created(target,value,oldvalue,initiator):
+        target.role = Role.query.filter_by(name='Guests').first()
 
 
 
 #监听当创建user时，默认的角色应该是Guest
-db.event.listen(User.name,'append',User.on_created)
+db.event.listen(User.name,'set',User.on_created)
