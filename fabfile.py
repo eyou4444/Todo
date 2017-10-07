@@ -12,5 +12,6 @@ def hello():
 def deploy():
     with cd('/root/Todo'):
         run('git pull')
+        sudo('python manager.py db upgrade')
         sudo('supervisorctl restart todo')
         sudo('supervisorctl status')

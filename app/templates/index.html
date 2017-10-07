@@ -1,6 +1,4 @@
 {% extends 'base.html' %}
-{#{% import '_marcos.html' as ui %} {# 需要给别名，防止import很多个 #}
-{% block title %}GloryRoad{% endblock %}
 
 {% block content %}
     <div class="page-header">
@@ -8,18 +6,12 @@
             <h1>{{ title }}</h1>
         </div>
     </div>
+
     <div class="container">
-            <h1>欢迎{{ current_user.name }},这里是首页！</h1>
-        <a href="{{ url_for('auth.logout') }}">点击退出</a>
-
-
+        <a href="{{ url_for('main.edit') }}" class="btn btn-primary">发表新文章</a>
     </div>
-
-
-
-{% block footer %}
-    <hr>
-{{ super() }}
 {% endblock %}
-{% endblock %}
+
+
+
 

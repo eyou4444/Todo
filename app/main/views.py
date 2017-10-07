@@ -1,10 +1,18 @@
 # -*- coding:utf-8 -*-
-from flask import flash, render_template, redirect, request
+from flask import flash, render_template, redirect, request,url_for,current_app,abort
 from . import main
+from .. import db
+from ..models import Post, Comment
+from flask_login import login_required, current_user
+from .forms import CommentForm, PostForm
+
+@main.errorhandler(404)  # 错误处理页面装饰器
+def page_not_found(error):
+    return render_template('404.html'), 404  # 后面可以直接加错误码
 
 @main.route('/')
 def index():
-    return render_template('index.html', title='Welcome to GloryRoad!')
+    return render_template('index.html', title=u'欢迎来到GloryRoad的博客')
 
 
 @main.route('/about')  # 无杠代表指向一个文件名来访问,访问时打/，会无法访问
@@ -12,17 +20,63 @@ def about():
     return render_template('about.html', title='Welcome to GloryRoad!')
 
 
-@main.route('/services')
-def services():
-    return 'Service'
 
 
+@main.route('/posts/<int:id>', methods=['GET', 'POST'])
+def post(id):
+    # Detail 详情页
+    post = Post.query.get_or_404(id)
+
+    # 评论窗体
+    form = CommentForm()
+
+    # 保存评论
+    if form.validate_on_submit():
+        comment = Comment(author=current_user,
+                          body=form.body.data,
+                          post=post)
+        db.session.add(comment)
+        db.session.commit()
+
+    # 评论列表
+
+    return render_template('posts/detail.html',
+                           title=post.title,
+                           form=form,
+                           post=post)
 
 
+@main.route('/edit', methods=['GET', 'POST']) #组合式路由  id默认等于0
+@main.route('/edit/<int:id>', methods=['GET', 'POST'])
+@login_required  # 用户需要是登陆的
+def edit(id=0):
+    form = PostForm()
 
-@main.errorhandler(404)  # 错误处理页面装饰器
-def page_not_found(error):
-    return render_template('404.html'), 404  # 后面可以直接加错误码
+    if id == 0:
+        #新增
+        post = Post(author=current_user)  # 用户等于登陆用户
+    else:
+        # 修改
+        post = Post.query.get_or_404(id)
+
+    if form.validate_on_submit():
+        post.body = form.body.data
+        post.title = form.title.data
+        db.session.add(post)
+        # flash('The post has been updated.')
+        db.session.commit()
+        return redirect(url_for('.post', id=post.id))
+
+    form.title.data = post.title
+    form.body.data = post.body
+
+    title =u'添加新文章2'
+    if id>0:
+         title = u'编辑-%'%post.title
+    return render_template('posts/edit.html',
+                           title=title,
+                           form=form,
+                           post=post)
 
 # 定义模板的测试函数，如果是当前访问的页面，就不显示链接
 # @main.template_test('current_link')  # 定义名字

@@ -8,6 +8,7 @@ from flask_nav.elements import *
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.routing import BaseConverter  # 德文写的正则模块包
 from flask_login import LoginManager
+from flask_pagedown import PageDown
 
 
 class RegexConverter(BaseConverter):  # 正则表达式转换器
@@ -25,6 +26,8 @@ db = SQLAlchemy()
 login_manager=LoginManager()
 login_manager.session_protection='strong'
 login_manager.login_view='auth.login'
+
+pagedown=PageDown()
 
 # 使用工厂方法创建app
 def create_app():
@@ -49,6 +52,7 @@ def create_app():
     bootstrap.init_app(app)
     nav.init_app(app)
     login_manager.init_app(app)
+    pagedown.init_app(app)
     #导入蓝图
     from auth import auth as auth_blueprint
     from main import main as main_blueprint

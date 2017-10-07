@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block page_body %}
+    <div class="container">
+        作者:{{ post.author.name }} 发表日期:{{ post.created }}
+        {{ post.body_html | safe }}
+
+        {{ wtf.quick_form(form) }}
+        {% for comment in post.comments|sort(attribute='created',reverse=True ) %}
+
+        {{ comment.created }}
+        {{ comment.body }}
+        <br />
+        {% endfor %}
+    </div>
+
+
+{% endblock %}
+
+

@@ -1,9 +1,9 @@
 {% extends 'bootstrap/base.html' %}
 
-<title>{% block title %}{% endblock %}</title>
+{% block title %}{{ title }}{% endblock %}
 {% block head %}
     {{ super() }}
-    {% include 'includes/_head.html' %}
+    {% include ['includes/_head.html','includes/_metas.html']%}
     {# 如果是多个文件，可以使用数组的形式include ['includes/_head.html','includes/_cool.html'] #}
 {% endblock %}
 
@@ -17,20 +17,32 @@
 
 {% block navbar %}
     {{ nav.top.render()}}
+{#    {% include 'includes/_navbar.html' %}#}
 {% endblock %}
-
-
-
 
 
 {% block content %}
-    <header>{% block header %}{% endblock %}</header>
-    <footer>
-        {% block footer %}<p align="center" style="margin-top: 20px;color:#878B91;">
-            &copy;Copyright 2017 by <a href='#'>GloryRoad</a>
-        </p>
+    {% block header %}
+        <header>
+            <div class="page-header">
+                <div class="container">
+                    <h1>{{ title }}</h1>
+                </div>
+            </div>
+        </header>
+    {% endblock %}
+    {% block page_body %}
+    {% endblock %}
+{% endblock %}
 
-        {% endblock %}
+
+{% block footer %}
+    <footer>
+        Copyright 2017 by <a href="ray.dotnetage.com">Ray</a>
     </footer>
 {% endblock %}
+
+
+
+
 
