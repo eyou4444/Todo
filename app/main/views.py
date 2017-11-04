@@ -46,6 +46,15 @@ def post(id):
                            post=post)
 
 
+# 在views.py里面：
+# post = Post(author=current_user)
+# 修改为：
+# post =Post(author_id=current_user.id)
+# 就可以了。
+# Post()括号里面给的是查询条件值，而不是类，你可以分别打印出current_user & current_user.id的内容看看。
+
+
+
 @main.route('/edit', methods=['GET', 'POST']) #组合式路由  id默认等于0
 @main.route('/edit/<int:id>', methods=['GET', 'POST'])
 @login_required  # 用户需要是登陆的
@@ -54,7 +63,7 @@ def edit(id=0):
 
     if id == 0:
         #新增
-        post = Post(author=current_user)  # 用户等于登陆用户
+        post = Post(author_id=current_user.id)  # 用户等于登陆用户
     else:
         # 修改
         post = Post.query.get_or_404(id)
@@ -63,7 +72,6 @@ def edit(id=0):
         post.body = form.body.data
         post.title = form.title.data
         db.session.add(post)
-        # flash('The post has been updated.')
         db.session.commit()
         return redirect(url_for('.post', id=post.id))
 

@@ -33,6 +33,16 @@ class User(UserMixin, db.Model):  # 继承多个基类
     def on_created(target, value, oldvalue, initiator):
         target.role = Role.query.filter_by(name='Guests').first()
 
+# class AnonymousUser(AnonymousUserMixin):
+#     @property
+#     def locale(self):
+#         return 'zh'
+#
+#     def is_administrator(self):
+#         return False
+#
+# login_manager.anonymous_user = AnonymousUser
+
 
 # 以下为钩子，不需要自己调用，程序需要时会自己调用
 @login_manager.user_loader
