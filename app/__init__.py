@@ -60,4 +60,9 @@ def create_app():
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
     # app.register_blueprint(main_blueprint,static_folder='static')
     app.register_blueprint(main_blueprint)
+
+    @app.template_test('current_link')
+    def is_current_link(link):
+        return link == request.path
+
     return app

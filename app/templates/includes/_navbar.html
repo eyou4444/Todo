@@ -17,19 +17,23 @@
              id="7bc75dbef69e41ff2452de70079c8ece1320ea7c">
             <ul class="nav navbar-nav">
                 <li {% if url_for('main.index') is current_link %}class="active"{% endif %}>
-                    <a href="{{ url_for('main.index') }}" title="{{ _("主页") }}">{{ _("主页") }}</a>
+                    <a href="{{ url_for('main.index') }}" title="{{ "主页"}}">{{ "主页"}}</a>
                 </li>
                 <li {% if url_for('main.about') is current_link %}class="active"{% endif %}>
-                    <a href="{{ url_for('main.about') }}" title="{{ _("关于") }}">{{ _("关于") }}</a>
+                    <a href="{{ url_for('main.about') }}" title="{{ "关于" }}">{{ "关于" }}</a>
                 </li>
             </ul>
+{#        关于判断用户登陆的current_user.is_authenticated()，#}
+{#            文中写法是{ % if current_user.is_authenticated() % }，#}
+{#            应当是{ % if current_user.is_authenticated% }，否则会出错！#}
+{#            AttributeError: 'bool' object has no attribute '__call__'#}
             <ul class="nav navbar-nav navbar-right">
-                {% if current_user.is_authenticated() %}
+                {% if current_user.is_authenticated %}
                     <li><a href="#">{{ current_user.name }}</a></li>
-                    <li><a href="{{ url_for('auth.logout') }}">{{ _("退出") }}</a></li>
+                    <li><a href="{{ url_for('auth.logout') }}">{{ "退出"}}</a></li>
                 {% else %}
-                    <li><a href="{{ url_for('auth.login') }}">{{ _("登录") }}</a></li>
-                    <li><a href="{{ url_for('auth.register') }}">{{ _("注册") }}</a></li>
+                    <li><a href="{{ url_for('auth.login') }}">{{ "登录"}}</a></li>
+                    <li><a href="{{ url_for('auth.register') }}">{{ "注册" }}</a></li>
                 {% endif %}
             </ul>
         </div>

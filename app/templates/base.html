@@ -16,8 +16,8 @@
 {% endblock %}
 
 {% block navbar %}
-    {{ nav.top.render()}}
-{#    {% include 'includes/_navbar.html' %}#}
+{#    {{ nav.top.render()}}#}
+    {% include 'includes/_navbar.html' %}
 {% endblock %}
 
 
@@ -37,8 +37,10 @@
 
 
 {% block footer %}
-    <footer>
-        Copyright 2017 by <a href="ray.dotnetage.com">Ray</a>
+    <footer class="container-fluid foot-wrap">
+        <p align="center" style="margin-top: 20px;color:#878B91;">
+            Copyright 2017 by <a href="https://www.baidu.com">GloryRoad</a>
+        </p>
     </footer>
 {% endblock %}
 

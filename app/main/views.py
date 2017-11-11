@@ -78,7 +78,7 @@ def edit(id=0):
     form.title.data = post.title
     form.body.data = post.body
 
-    title =u'添加新文章2'
+    title =u'添加新文章'
     if id>0:
          title = u'编辑-%'%post.title
     return render_template('posts/edit.html',

@@ -2,16 +2,11 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 {% block title %}GloryRoad{% endblock %}
 {% block content %}
-    <div class="page-header">
-        <div class="container">
-            <h1>{{ title }}</h1>
-        </div>
-    </div>
+     {{ super() }}
     <div class="container">
         {% for message in get_flashed_messages() %}
             <div class="alert-info">{{ message }}</div>
         {% endfor %}
         {{ wtf.quick_form(form) }}
-    {{ super() }}
     </div>
 {% endblock %}
