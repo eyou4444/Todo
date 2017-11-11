@@ -12,7 +12,10 @@ def page_not_found(error):
 
 @main.route('/')
 def index():
-    return render_template('index.html', title=u'欢迎来到GloryRoad的博客')
+    posts=Post.query.all()
+    return render_template('index.html',
+                           title=u'欢迎来到GloryRoad的博客',
+                           posts=posts)
 
 
 @main.route('/about')  # 无杠代表指向一个文件名来访问,访问时打/，会无法访问
@@ -23,6 +26,7 @@ def about():
 
 
 @main.route('/posts/<int:id>', methods=['GET', 'POST'])
+@login_required  # 用户需要是登陆的
 def post(id):
     # Detail 详情页
     post = Post.query.get_or_404(id)
