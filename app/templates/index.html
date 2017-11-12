@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from "bootstrap/pagination.html" import render_pagination %}
 
 {% block content %}
     {{ super() }}
@@ -13,6 +14,10 @@
                 {{ post.body_html|safe }}
             </div>
         {% endfor %}
+
+        {% if pagination %}
+            {{ render_pagination(pagination) }}
+        {% endif %}
 
 
     </div>

@@ -9,7 +9,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.routing import BaseConverter  # 德文写的正则模块包
 from flask_login import LoginManager
 from flask_pagedown import PageDown
-from flask_gravatar import Gravatar
+from flask_gravatar import Gravatar #生成头像库
 
 
 class RegexConverter(BaseConverter):  # 正则表达式转换器
@@ -55,7 +55,7 @@ def create_app():
     login_manager.init_app(app)
     pagedown.init_app(app)
 
-    Gravatar(app,size=64)
+    Gravatar(app,size=64) #初始化头像尺寸
 
     #导入蓝图
     from auth import auth as auth_blueprint
